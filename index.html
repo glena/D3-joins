@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  
+</head>
+<body>
+  <div>
+    <button onclick="addData()">Add</button>
+    <button onclick="removeData()">Remove</button>
+  </div>
+  <script type="text/javascript">
+    
+    /* returns a random opacity value */
+    function getOpacity()
+    {
+      var opacity = Math.random();
+      if (opacity > 0.5) opacity = 0.5;
+      return opacity;
+    }
+    
+    /* returns a random fill color */
+    function getFill() {
+      var colors = ['red','blue','orange','yellow','green'];
+      var index = Math.floor((Math.random()*(colors.length-1))+1);
+      return colors[index];
+    }
+    
+    var size = {
+      width:700,
+      height:500
+    };
+    
+    /* random dataset */
+    var data = [
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+      {x:Math.random(),y:Math.random(),r:Math.random()},
+    ];
+        
+    var svg = d3.select("body").append("svg")
+      .attr("width", size.width)
+      .attr("height", size.height);
+            
+    /* scales */      
+    var x = d3.time.scale().range([0, size.width]);
+    var y = d3.scale.linear().range([size.height, 0]);
+    var r = d3.time.scale().range([0, size.width]);
+    r.domain([0,7]);
+    
+    renderData(data);
+    
+    function renderData(data)
+    {
+      /* updates the scales to handle the new data values in order to grow or shrink */
+      x.domain(d3.extent(data, function(d) { return d.x; }));
+      y.domain(d3.extent(data, function(d) { return d.y; }));
+      
+      /* joins the circle selection with the data */
+      var circles = svg.selectAll("circle").data(data);
+      
+      /* if there is new data, appends a new SVG circle, sets the radius and position and aesthetic attrs (also makes the circles grow with a transition). Also, adds a stupid effect when the mouse moves over the circles */
+      circles.enter().append("circle")
+        .attr("fill", getFill)
+        .attr("fill-opacity", getOpacity)
+        .attr("stroke", "black")
+        .attr("stroke-width", "2")
+      
+        .on('mouseover', function(d){
+          d3.select(this).transition()
+            .attr("r",r(d.r) * 1.1);
+        })
+        .on('mouseout', function(d){
+          d3.select(this).transition()
+            .attr("r",r(d.r) );
+        })
+      
+        .attr("r", 0)
+        .transition()
+        .attr("r", function(d) { return r(d.r); });
+      
+      /* removes the circles that there are no loger in the dataset (and makes them shrink with a transition */
+      circles.exit().transition()
+        .attr("r", 0)
+        .remove();
+      
+      /* for every circle, it sets the position for the new ones and updates the position (because we are updating the scale) */
+      circles
+        .attr("cx", function(d) { return x(d.x); })
+        .attr("cy", function(d) { return y(d.y); });
+      
+    }
+             
+    /* adds an item to the dataset and updates the circles selection */
+    function addData()
+    {
+      data.push({x:Math.random(),y:Math.random(),r:Math.random()});
+      renderData(data);
+    }
+    /* removes the last item to the dataset and updates the circles selection */
+    function removeData()
+    {
+      if (data.length == 0) return;
+      data.pop();
+      renderData(data);
+    }
+        
+  </script>
+</body>
+</html>
+  
