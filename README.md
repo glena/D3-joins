@@ -3,7 +3,7 @@ D3-joins
 
 Playing with D3, data joins and circles.
 
-You can find the working demo on http://jsbin.com/oFEmucEc/8/ (and also play with the code :)).
+Check the working demo on http://rawgithub.com/glena/D3-joins/master/index.html
 
 Why?
 ----
