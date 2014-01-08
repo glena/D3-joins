@@ -10,3 +10,7 @@ Why?
 
 I am learning D3.js. This is the result of reading the @mbostock guide about joins (http://bost.ocks.org/mike/join/).
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/glena/d3-joins/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
