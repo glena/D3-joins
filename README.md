@@ -12,4 +12,4 @@ I am learning D3.js. This is the result of reading the @mbostock guide about joi
 
 
 
-[![Analytics](https://ga-beacon.appspot.com/UA-51467836-1/glena/D3-joins)](https://germanlena.com.ar)
+[![Analytics](https://ga-beacon.appspot.com/UA-51467836-1/glena/D3-joins)](http://germanlena.com.ar)
